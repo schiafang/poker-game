@@ -1,0 +1,39 @@
+/* {
+  border: 0.5px solid pink;
+} */
+
+#cards {
+  display: flex;
+  flex-wrap: wrap;
+}
+.card {
+  box-sizing: border-box;
+  /* 卡片在容器中的排版:13x4 */
+  flex: 7% 0 1;
+  height: 8vw;
+  /* border: 0.5px solid rgb(67, 46, 185); */
+  margin: 1px;
+  /* 卡片內部的排版:數字與花色位置 */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+/*  flex-basis:在容器中站的大小比例 (flex預設為row所以是指橫軸的寬度，13張卡片一張在橫排佔13/100，約7%)
+    flex-grow:是否要填滿容器剩餘空間
+    flex-shirnk:若空間不夠是否收縮大小 (vw相對單位: 1vw為一個視窗大小，8vw為8%視窗大小) */
+.card img {
+  max-width: 30%;
+  align-self: center;
+}
+
+.card p {
+  margin: 3px;
+  font-size: 10px;
+}
+.card p:last-child {
+  transform: rotate(180deg);
+}
+.back {
+    background: url('https://assets-lighthouse.alphacamp.co/uploads/image/file/9222/ExportedContentImage_00.png');
+    background-size: cover;
+}

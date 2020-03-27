@@ -73,6 +73,23 @@ const view = {
 
   renderTriedTimes(times) {
     document.querySelector(".tried").innerText = `You've tried: ${times} times`;
+  },
+  //動畫顯示監聽:動畫只跑完一次 {once: true} 結束
+  appendWrongAnimation(...cards) {
+    cards.map(card => {
+      card.classList.add('wrong')
+      card.addEventListener('animationend', event => event.target.classList.remove('wrong'), { once: true })
+    })
+  },
+  showGameFinished() {
+    const div = document.createElement('div')
+    div.classList.add('completed')
+    div.innerHTML = `
+      <p>You're Awesome!</p>
+      <p>Score: ${model.score}</p>
+      <p>You've tried: ${model.triedTimes} times</p>`
+    const header = document.querySelector('#header')
+    header.before(div)
   }
 }
 
@@ -115,16 +132,21 @@ const controller = {
           //配對成功，並加上配對成功的pairCard樣式
           //清空暫存牌卡區並回到等待第一張牌狀態
           this.currentState = GAME_STATE.CardsMatched
-          view.renderScore(model.score += 10) //加分數
+          view.renderScore(model.score += 10)
           view.pairCards(...model.revealedCards)
           model.revealedCards = []
+          if (model.score === 260) {
+            this.currentState = GAME_STATE.GameFinished
+            view.showGameFinished()
+          }
           this.currentState = GAME_STATE.FirstCardAwaits
         } else {
           //配對失敗，進入配對失敗狀態
           //呼叫flipCard將牌翻回正面清空暫存區並回到等待第一張牌狀態
+          //在重置卡片前呼叫CSS動畫
           this.currentState = GAME_STATE.CardsMatchFailed
-          setTimeout(this.resetCards, 500)
-          this.currentState = GAME_STATE.FirstCardAwaits
+          view.appendWrongAnimation(...model.revealedCards)
+          setTimeout(this.resetCards, 1500)
         }
         break
     }
@@ -136,7 +158,10 @@ const controller = {
   resetCards() {
     view.flipCards(...model.revealedCards)
     model.revealedCards = []
+    // this.currentState = GAME_STATE.FirstCardAwaits
+    controller.currentState = GAME_STATE.FirstCardAwaits
   }
+  //當resetCards放進setTimeout時，this指向setTimeout
 }
 
 //----- 模組 utility -----//
@@ -160,5 +185,3 @@ document.querySelectorAll('.card').forEach(card => {
     controller.dispatchCardAction(card)
   })
 })
-
-

@@ -2,32 +2,43 @@
   border: 0.5px solid pink;
 } */
 
+body {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 /* 牌卡樣式 */
 #cards {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  width: 95%;
 }
 .card {
   box-sizing: border-box;
   /* 卡片在容器中的排版:13x4 */
-  flex: 7% 0 1;
+  flex: 7% 1 ;
   height: 8vw;
-  /* border: 0.5px solid rgb(67, 46, 185); */
-  margin: 1px;
+  margin: 1.5px;
   /* 卡片內部的排版:數字與花色位置 */
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-around; 
+  /*  
+  flex: flex-basis flex-grow flex-shirnk
+  flex-basis:在容器中站的大小比例 (flex預設為row所以是指橫軸的寬度，13張卡片一張在橫排佔13/100，約7%)
+  flex-grow:是否要填滿容器剩餘空間
+  flex-shirnk:若空間不夠是否收縮大小 (vw相對單位: 1vw為一個視窗大小，8vw為8%視窗大小) 
+  */
 }
-/*  flex-basis:在容器中站的大小比例 (flex預設為row所以是指橫軸的寬度，13張卡片一張在橫排佔13/100，約7%)
-    flex-grow:是否要填滿容器剩餘空間
-    flex-shirnk:若空間不夠是否收縮大小 (vw相對單位: 1vw為一個視窗大小，8vw為8%視窗大小) */
 .card img {
-  max-width: 30%;
-  align-self: center;
-}
+  max-width: 25%;
+  align-self: center;  
+} 
 .card p {
-  margin: 3px;
+  margin: 5px;
   font-size: 10px;
 }
 .card p:last-child {
@@ -38,7 +49,7 @@
     background-size: cover;
 }
 .paired {
-  background-color: rgb(227, 234, 240);
+  background-color: #F8F8F8;
 }
 
 /* 標題計分 */
@@ -47,7 +58,7 @@
   margin: 0 auto;
   flex-direction: column;
   align-items: flex-end;
-  width: 85%;
+  width: 90%;
 }
 #header .title {
   width: 100%;
@@ -66,4 +77,36 @@
 }
 #header .tried {
   margin-top: 0;
+}
+/* 錯誤動畫 */
+.wrong {
+  animation-name: wrongAnimation;
+  animation-duration: 0.2s;
+  animation-iteration-count: 4;
+}
+@keyframes wrongAnimation {
+  to {
+    /* border: 0.5px solid #f17d59; */
+    background-color: #f5c0b8;
+  }
+}
+/* 遊戲結束 */
+.completed {
+  position: absolute;
+  z-index: 999;
+  top: 33vh;
+  background-color: RGBA(232, 246, 254, 0.8);
+  width: 100vw;
+  padding: 50px 0;
+}
+.completed > p {
+  font-size: 1.5em;
+  color: black;
+  text-align: center;
+  margin: 0;
+}
+.completed > p:first-child {
+  font-size: 3em;
+  font-weight: 700;
+  color: #758d9a;
 }
